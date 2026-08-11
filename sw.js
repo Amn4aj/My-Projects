@@ -1,5 +1,7 @@
 const CACHE_NAME = 'typing-app-v1';
+// IMPORTANT: './' lagana zaroori hai
 const urlsToCache = [
+  './',
   './typing-test.html',
   './typing-style.css',
   './typing-script.js',
