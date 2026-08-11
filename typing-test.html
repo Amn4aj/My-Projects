@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orison Typing Matster</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  
+</body>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log("App Service Worker Active!"));
+  }
+
+  // App Install Prompt logic
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Create Install Button dynamically
+    const installBtn = document.createElement('button');
+    installBtn.className = 'action-btn';
+    installBtn.style.position = 'fixed';
+    installBtn.style.bottom = '20px';
+    installBtn.style.right = '20px';
+    installBtn.style.zIndex = '999';
+    installBtn.innerHTML = '<i class="fa-solid fa-download"></i> Install App';
+    
+    installBtn.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          installBtn.remove();
+        }
+      });
+    });
+
+    document.body.appendChild(installBtn);
+  });
+</script>
+</html>
